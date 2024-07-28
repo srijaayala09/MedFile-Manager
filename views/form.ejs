@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Consultation Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #5cb85c;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .banner {
+            width: 80px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .container-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .required::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container-header container">
+            <h1>Medfile Manager</h1>
+            <img src="https://i.etsystatic.com/26658960/r/il/e884b9/3814251269/il_fullxfull.3814251269_aqz2.jpg" alt="Medical Records Banner" class="banner">
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="/home" class="nav-link text-white">Home</a></li>
+                    <li class="nav-item"><a href="/profile" class="nav-link text-white">Profile</a></li>
+                    <li class="nav-item"><a href="/logout" class="nav-link text-white">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Medical Consultation Form</h1>
+        <form id="consultation-form" action="/form" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="consultation-date" class="required">Consultation Date</label>
+                <input type="date" id="consultation-date" name="consultation_date" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="hospital-name" class="required">Hospital Name</label>
+                <input type="text" id="hospital-name" name="hospital_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="doctor-name" class="required">Doctor's Name</label>
+                <input type="text" id="doctor-name" name="doctor_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="doctor-specialisation" class="required">Doctor Specialisation</label>
+                <input type="text" id="doctor-specialisation" name="doctor_specialisation" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="prescriptions" class="required">Prescriptions (PDF)</label>
+                <input type="file" id="prescriptions" name="prescriptions" class="form-control-file" accept=".pdf" required>
+            </div>
+            <div class="form-group">
+                <label for="medical-report" class="required">Medical Report (PDF)</label>
+                <input type="file" id="medical-report" name="medical_report" class="form-control-file" accept=".pdf" required>
+            </div>
+            <div class="form-group">
+                <label for="next-consultation-date">Next Consultation Date (Optional)</label>
+                <input type="date" id="next-consultation-date" name="next_consultation_date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="additional-documents">Additional Documents</label>
+                <input type="file" id="additional-documents" name="additional_documents" class="form-control-file" accept=".pdf">
+            </div>
+            <div class="alert alert-danger" id="error-message" style="display: none;"></div>
+            <button type="submit" class="btn btn-success btn-block">Submit</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Medical Records Management. All rights reserved.</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('consultation-form').addEventListener('submit', function(event) {
+            var mandatoryFields = ['consultation-date', 'hospital-name', 'doctor-name', 'doctor-specialisation'];
+            var errorMessage = document.getElementById('error-message');
+            var valid = true;
+
+            mandatoryFields.forEach(function(fieldId) {
+                var field = document.getElementById(fieldId);
+                if (!field.value) {
+                    valid = false;
+                    field.classList.add('is-invalid');
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!valid) {
+                event.preventDefault();
+                errorMessage.textContent = 'Please fill in all mandatory fields.';
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
